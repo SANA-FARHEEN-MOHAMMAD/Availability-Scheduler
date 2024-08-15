@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Name</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #a370f0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;            
+            font-size: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(193, 23, 23, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; 
+        }
+        input[type="text"] {
+            padding: 5px;
+            font-size: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-width: 200px; 
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="heading">Enter Your Name</h1>
+        <form id="nameForm">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <button class="cssbuttons-io-button">Next
+                <div class="icon">
+                    <svg
+                    height="15"
+                    width="15"
+                    viewBox="0 0 20 20"
+                    >
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                    <path
+                    d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                    fill="currentColor">
+                </path>
+            </svg>
+            </div>
+        </button>
+    </form>
+</div>
+
+<a href="main.html">Return to Menu</a>
+<style>
+    .heading{
+        font-size: 30px;
+    }
+.cssbuttons-io-button {
+  background: #a370f0;
+  color: white;
+  font-family: inherit;
+  padding: 0.2em;
+  padding-left:0.4em;
+  font-size: 15px;
+  font-weight: 300;
+  border-radius: 0.5em;
+  border: none;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #714da6;
+  overflow: hidden;
+  position: relative;
+  height: 2.0em;
+  padding-right: 2.2em;
+  cursor: pointer;
+}
+
+.cssbuttons-io-button .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5em;
+  width: 1.5em;
+  border-radius: 0.7em;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.cssbuttons-io-button:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.cssbuttons-io-button .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #7b52b9;
+}
+
+.cssbuttons-io-button:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+  transform: scale(0.95);
+}
+a{
+            position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 20px;
+    margin-left: 1em;
+            color: rgb(253, 251, 251);
+        }
+        a:hover{
+            text-decoration: dotted;
+            color: rgb(5, 2, 2);
+        }
+</style>
+    <script>
+        document.getElementById('nameForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+
+            if (name) {
+                localStorage.setItem('userName', name);
+                window.location.href = 'timetable.html';
+            } else {
+                alert('Please enter your name.');
+            }
+        });
+    </script>
+</body>
+</html>
