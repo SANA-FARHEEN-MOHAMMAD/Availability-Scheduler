@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Availability</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(222, 9, 158);
+        }
+        .day {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+        #availability {
+            margin-top: 20px;
+        }
+        .day-column {
+            flex: 1;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .bt{
+            position:relative;
+  display: inline-block;
+  margin: 15px;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #fcfcfc;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid #fdfdfe;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #fcfdfd;
+        }
+        .bt:hover{
+            color:rgb(222, 9, 158);
+  box-shadow: inset 0 -100px 0 0 #fcfcfc;
+        }
+        .bt:active{
+            transform: scale(0.9);
+        }
+        .di{
+            text-align: center;
+            padding: 10px;
+        }
+        #availability{
+            color: #fbf8f8;
+            font-size: 30px;
+        }
+        a{
+            position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 20px;
+    margin-left: 1em;
+            color: rgb(0, 0, 0);
+        }
+        a:hover{
+            text-decoration: dotted;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 50px; color: rgb(253, 247, 252); text-align: center;">Availability</h1>
+    <p style="font-size: 30px; color: rgb(253, 247, 252); text-align: center; padding-top: 30px;">Click on a day to see who is free and at what time</p>
+    <div class="di">
+        <button class="bt" onclick="showAvailability('tue')">Tuesday</button>
+        <button class="bt" onclick="showAvailability('wed')">Wednesday</button>
+        <button class="bt" onclick="showAvailability('thu')">Thursday</button>
+        <button class="bt" onclick="showAvailability('fri')">Friday</button>
+        <button class="bt" onclick="showAvailability('sat')">Saturday</button>
+    </div>
+    <div id="availability"></div>
+    <div class="di">
+    <button class="bt" onclick="showAllAvailability()">Print all</button>
+</div>
+<a href="main.html">Return to Menu</a>
+    <script>
+        function showAvailability(day) {
+            const availabilityData = JSON.parse(localStorage.getItem('availabilityData')) || {};
+            const availabilityDiv = document.getElementById('availability');
+            const dayData = availabilityData[day] || [];
+
+            const timeSlots = {
+                '9-10': [],
+                '10-11': [],
+                '11-12': [],
+                '12-1': [],
+                '2-3': [],
+                '3-4': [],
+                '4-5': [],
+                '5-6': []
+            };
+            dayData.forEach(slot => {
+                if (timeSlots[slot.time]) {
+                    timeSlots[slot.time].push(slot.name);
+                }
+            });
+
+            let html = `<h3>Availability for ${capitalizeFirstLetter(day)}</h3><ul>`;
+            for (let time in timeSlots) {
+                const names = timeSlots[time].length > 0 ? timeSlots[time].join(', ') : '-';
+                html += `<li>${time}: ${names}</li>`;
+            }
+            html += `</ul>`;
+            availabilityDiv.innerHTML = html;
+        }
+        function showAllAvailability() {
+            const days = ['tue', 'wed', 'thu', 'fri', 'sat'];
+            const availabilityDiv = document.getElementById('availability');
+            availabilityDiv.innerHTML = '';
+
+            days.forEach(day => {
+                const availabilityData = JSON.parse(localStorage.getItem('availabilityData')) || {};
+                const dayData = availabilityData[day] || [];
+
+                const timeSlots = {
+                    '9-10': [],
+                    '10-11': [],
+                    '11-12': [],
+                    '12-1': [],
+                    '2-3': [],
+                    '3-4': [],
+                    '4-5': [],
+                    '5-6': []
+                };
+                dayData.forEach(slot => {
+                    if (timeSlots[slot.time]) {
+                        timeSlots[slot.time].push(slot.name);
+                    }
+                });
+                let html = `<div class="day-column"><h2>${capitalizeFirstLetter(day)}</h2><ul>`;
+                    for (let time in timeSlots) {
+                    const names = timeSlots[time].length > 0 ? timeSlots[time].join(', ') : '-';
+                    html += `<li>${time}: ${names}</li>`;
+                }
+                html += `</ul></div>`;
+                availabilityDiv.innerHTML += html;
+            });
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    </script>
+</body>
+</html>
