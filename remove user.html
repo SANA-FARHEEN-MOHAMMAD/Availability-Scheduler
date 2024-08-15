@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Users</title>
+    <style>
+        body {
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle, rgba(207,21,24,1) 19%, rgba(15,1,1,1) 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: black;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .modal-buttons .confirm-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .modal-buttons .cancel-btn {
+            background-color: #aaa;
+            color: white;
+        }
+        input{
+            border: red;
+            color: black;
+        }
+        a{
+            position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 20px;
+    margin-left: 1em;
+            color: white;
+        }
+        a:hover{
+            text-decoration: dotted;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #e4220d; font-size: 45px; word-spacing: 15px;">REMOVE  USERS</h1>
+        <input type="text" id="search" placeholder="Search for a name" class="input">
+        <ul id="userList"></ul>
+    </div>
+
+    <!-- Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <p id="modalText">Are you sure you want to delete?</p>
+            <div class="modal-buttons">
+                <button id="confirmDeleteBtn" class="confirm-btn">Delete</button>
+                <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <a href="main.html">Return to Menu</a>
+    <script>
+        const availabilityData = JSON.parse(localStorage.getItem('availabilityData')) || {};
+        const userList = document.getElementById('userList');
+        const searchInput = document.getElementById('search');
+        const deleteModal = document.getElementById('deleteModal');
+        const modalText = document.getElementById('modalText');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        let nameToDelete = '';
+
+        // Get all unique user names
+        let allNames = [];
+        for (let day in availabilityData) {
+            availabilityData[day].forEach(slot => {
+                if (!allNames.includes(slot.name)) {
+                    allNames.push(slot.name);
+                }
+            });
+        }
+
+        // Function to render the list of names
+        function renderUserList(names) {
+            userList.innerHTML = '';
+            if (names.length === 0) {
+                userList.innerHTML = '<li class="no-data">No data available</li>';
+                return;
+            }
+
+            names.forEach(name => {
+                const li = document.createElement('li');
+                li.innerHTML = `${name} <button class="delete-btn" onclick="openModal('${name}')">Delete</button>`;
+                userList.appendChild(li);
+            });
+        }
+
+        // Function to filter names based on search input
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredNames = allNames.filter(name => name.toLowerCase().includes(searchTerm));
+            renderUserList(filteredNames);
+        });
+
+        // Function to open the modal and set the name to delete
+        function openModal(name) {
+            nameToDelete = name;
+            modalText.textContent = `Are you sure you want to delete '${name}'?`;
+            deleteModal.style.display = 'block';
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            deleteModal.style.display = 'none';
+        }
+
+        // Function to delete the user data
+        function deleteUser() {
+            for (let day in availabilityData) {
+                availabilityData[day] = availabilityData[day].filter(slot => slot.name.toLowerCase() !== nameToDelete.toLowerCase());
+            }
+
+            // Update the localStorage
+            localStorage.setItem('availabilityData', JSON.stringify(availabilityData));
+
+            // Remove the name from the allNames array
+            allNames = allNames.filter(n => n.toLowerCase() !== nameToDelete.toLowerCase());
+
+            // Re-render the list
+            renderUserList(allNames);
+
+            closeModal();
+        }
+
+        // Event listeners for modal buttons
+        confirmDeleteBtn.addEventListener('click', deleteUser);
+        document.getElementById('cancelDeleteBtn').addEventListener('click', closeModal);
+
+        // Initial render
+        renderUserList(allNames);
+    </script>
+</body>
+</html>
