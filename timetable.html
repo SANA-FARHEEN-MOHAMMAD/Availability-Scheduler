@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: antiquewhite;
+        }
+        th, td {
+            border: 2px solid #8f0a0a;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+        th {
+            background-color: #0f0101;
+        }
+        body{
+            background-color: rgb(33, 186, 233);
+        }
+        h1{
+            color: white;
+                }
+        .days{
+            background-color: black;
+            color: white;
+            padding: 5px 2px 5px 2px;
+            font-size: 20px;
+        }
+        .side{
+            background-color: white;
+           color: #000;
+           padding: 5px 2px 5px 2px;
+           font-size: 20px;
+        }
+        .lunch{
+            color: black;
+        }
+        .head{
+            text-align: center;
+            font-size: 70px;
+        }
+        input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+        }
+button {
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: 2px solid white;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: transparent;
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+button:hover {
+  background: black;
+  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+button::before {
+  content: '';
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+button:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.modal-content p {
+    color: black;
+    font-size: 18px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+.submit{
+    text-align: center;
+    padding-top: 10px;
+    font-size: 21px;
+}
+    </style>
+</head>
+<body>
+    <h1 class="head">Availability Schedule</h1>
+    <h1 style="text-align: center; font-size: 28px;">Click on the box when you have a free slot</h1>
+    <form id="availabilityForm">
+        <table>
+            <thead>
+                <tr>
+                    <th class="side">Day</th>
+                    <th>9-10</th>
+                    <th>10-11</th>
+                    <th>11-12</th>
+                    <th>12-1</th>
+                    <th>1-2</th>
+                    <th>2-3</th>
+                    <th>3-4</th>
+                    <th>4-5</th>
+                    <th>5-6</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="days">tuesday</td>
+                    <td><input type="checkbox" name="tue 9-10"></td>
+                    <td><input type="checkbox" name="tue 10-11"></td>
+                    <td><input type="checkbox" name="tue 11-12"></td>
+                    <td><input type="checkbox" name="tue 12-1"></td>
+                    <td class="lunch">lunch</td>
+                    <td><input type="checkbox" name="tue 2-3"></td>
+                    <td><input type="checkbox" name="tue 3-4"></td>
+                    <td><input type="checkbox" name="tue 4-5"></td>
+                    <td><input type="checkbox" name="tue 5-6"></td>
+                </tr>
+                <tr>
+                    <td class="days">wednesday</td>
+                    <td><input type="checkbox" name="wed 9-10"></td>
+                    <td><input type="checkbox" name="wed 10-11"></td>
+                    <td><input type="checkbox" name="wed 11-12"></td>
+                    <td><input type="checkbox" name="wed 12-1"></td>
+                    <td class="lunch">lunch</td>
+                    <td><input type="checkbox" name="wed 2-3"></td>
+                    <td><input type="checkbox" name="wed 3-4"></td>
+                    <td><input type="checkbox" name="wed 4-5"></td>
+                    <td><input type="checkbox" name="wed 5-6"></td>
+                </tr>
+                <tr>
+                    <td class="days">thursday</td>
+                    <td><input type="checkbox" name="thu 9-10"></td>
+                    <td><input type="checkbox" name="thu 10-11"></td>
+                    <td><input type="checkbox" name="thu 11-12"></td>
+                    <td><input type="checkbox" name="thu 12-1"></td>
+                    <td class="lunch">lunch</td>
+                    <td><input type="checkbox" name="thu 2-3"></td>
+                    <td><input type="checkbox" name="thu 3-4"></td>
+                    <td><input type="checkbox" name="thu 4-5"></td>
+                    <td><input type="checkbox" name="thu 5-6"></td>
+                </tr>
+                <tr>
+                    <td class="days">friday</td>
+                    <td><input type="checkbox" name="fri 9-10"></td>
+                    <td><input type="checkbox" name="fri 10-11"></td>
+                    <td><input type="checkbox" name="fri 11-12"></td>
+                    <td><input type="checkbox" name="fri 12-1"></td>
+                    <td class="lunch">lunch</td>
+                    <td><input type="checkbox" name="fri 2-3"></td>
+                    <td><input type="checkbox" name="fri 3-4"></td>
+                    <td><input type="checkbox" name="fri 4-5"></td>
+                    <td><input type="checkbox" name="fri 5-6"></td>
+                </tr>
+                <tr>
+                    <td class="days">saturday</td>
+                    <td><input type="checkbox" name="sat 9-10"></td>
+                    <td><input type="checkbox" name="sat 10-11"></td>
+                    <td><input type="checkbox" name="sat 11-12"></td>
+                    <td><input type="checkbox" name="sat 12-1"></td>
+                    <td class="lunch">lunch</td>
+                    <td><input type="checkbox" name="sat 2-3"></td>
+                    <td><input type="checkbox" name="sat 3-4"></td>
+                    <td><input type="checkbox" name="sat 4-5"></td>
+                    <td><input type="checkbox" name="sat 5-6"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="submit">
+        <button type="submit" class="submit">Submit</button>  
+    </div> 
+    </form>
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <p>Your data is saved!</p>
+            <p>Click 'ok' to continue</p>
+            <button id="modalOkBtn">OK</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('availabilityForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            let availabilityData = JSON.parse(localStorage.getItem('availabilityData')) || {};
+            
+            const userName = localStorage.getItem('userName');
+            checkboxes.forEach(checkbox => {
+                const [day, time] = checkbox.name.split(' ');
+                if (!availabilityData[day]) availabilityData[day] = [];
+                availabilityData[day].push({name: userName, time });
+            });
+
+            localStorage.setItem('availabilityData', JSON.stringify(availabilityData));
+            // Show the custom modal
+const modal = document.getElementById('customModal');
+const modalOkBtn = document.getElementById('modalOkBtn');
+
+modal.style.display = 'block';
+
+modalOkBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+    window.location.href = 'add user.html';
+});
+        });
+    </script>
+
+</body>
+</html>
